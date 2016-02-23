@@ -19,6 +19,9 @@
                     <div class="slides" style="width: 960px; height: 700px; zoom: 0.943714;">
 
     <script>
+        // le site notam de l'aviation civile n'accepte que 12 aérodromes maximum par requête.
+        // en créant des secteurs d'un nombre maximum de 12 aérodromes, on arrive à nos fins.
+        // Ajoutez autant de secteurs que besoin.
         var listeAeros = [
             { nom: 'Alpes du Sud',
               liste: ['LFMX','LFNS','LFNA','LFTM','LFNJ','LFTP','LFNF','LFNC','LFMR','LFMF']},
@@ -30,12 +33,14 @@
         ];
 
 
+        // On initialise la date du jour pour tout le document
             var date = new Date();
             var minutes = date.getUTCMinutes();
             var hours = date.getUTCHours();
             var day = date.getUTCDate();
             var month = date.getUTCMonth()+1;
             var year = date.getUTCFullYear();
+            // faisons en sorte que le premier janvier à 8 heures 2 minutes soit 01/01/2016 08:02, et non 1/1/2016 8:2  ;-)
             if(hours.toString().length==1){var zero = '0'; hours = zero.concat(hours);}
             if(minutes.toString().length==1){var zero = '0'; minutes = zero.concat(minutes);}
             if(month.toString().length==1){var zero = '0'; month = zero.concat(month);}
@@ -44,12 +49,14 @@
     </script>    
 
 
-
+    <!-- Premier slide -->
     <section class="present" style="top: -198px; display: block;">
         <h1>Briefing Météo</h1>
         <p>
             <small>Saint-Auban</small>
         </p>
+
+        <!-- l'astuce qui permet de se connecter automatiquement au site de météo france pour accéder aux cartes des vent -->
         <form id='formloginaeroweb' action="https://aviation.meteo.fr/ajax/login_valid.php" target="aeroweb-iframe" method="post">
             <input type="hidden" name='login' value='briffe'>
             <input type="hidden" name='password' value='74405c9e1ef1ab9b3175220c81cf88af'>
@@ -59,16 +66,15 @@
             document.getElementById('formloginaeroweb').submit();
             function sleep(miliseconds) {
                var currentTime = new Date().getTime();
-            
                while (currentTime + miliseconds >= new Date().getTime()) {
                }
             }
-            sleep(2000);       
+            sleep(2000); //pas très élégant, faute de mieux ça permet d'attendre la connexion à météo france avant de charger les cartes       
         </script>
     </section>
               
 
-
+    <!-- Tous les slides montrant les Notams selon la liste définie plus haut, pour les 12 prochaines heures -->
     <script>
         var listeInputAeros = function(listeAerosRegionale){
             var ll = '';
@@ -120,6 +126,8 @@
         sectionNotam(listeAeros);
     </script>
 
+
+    <!-- la liste des SUP AIP du jour, malheureusement pas triée -->
     <section class="future" style="top: -350px; display: block;" hidden="">
         <h4>Sup AIP</h4>
         <form id="formSupAip" action="https://www.sia.aviation-civile.gouv.fr/asp_ssl/supaipmetro.asp?idl=fr&rechtext=0" target="iframeSupAip" method="post">
@@ -136,6 +144,7 @@
         </script>
     </section>
 
+    <!-- un essai qui ne marche pas pour supprimer certaines lignes dans les SUP AIP-->
     <script>
         var menage = function(){
             var encours = document.getElementsByClassName('encours');
@@ -143,6 +152,8 @@
         }
     </script>
 
+
+    <!-- un slide -->
     <section class="future" style="top: -350px; display: block;" hidden="">
         <h4>Prévision Front à 12H</h4>
         <script>
@@ -151,6 +162,9 @@
         
     </section>
 
+
+    <!-- un slide -->
+    <!-- les photos satellites sont chargées une à une et réassemblées en image animée avec la librairie gallery.css pour reveal.js -->
     <section hidden="" class="future" style="top: -350px; display: block;">
         <h4>Satellite infrarouge Europe</h4>
         <ul class="gallery" data-interval="0.7" data-iterations="0">
@@ -190,6 +204,9 @@
         </ul>
     </section>
 
+
+    <!-- un slide -->
+    <!-- les photos satellites sont chargées une à une et réassemblées en image animée avec la librairie gallery.css pour reveal.js -->
     <section hidden="" class="future" style="top: -350px; display: block;">
         <h4>Satellite visible France</h4>
         <ul class="gallery" data-interval="0.7" data-iterations="0">
@@ -229,26 +246,31 @@
         </ul>
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -350px; display: none;">
             <h4>Géopotentielle à 500mb</h4>
             <img src="https://static.meteoblue.com/pub/nems12/maps/00VHG50_012.jpg" style="max-width:70%; max-height:70%;">
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Radar pluie</h4>
         <img src="http://www.meteo60.fr/radars/animation-radar-france.gif" style="max-width:100%; max-height:100%;">
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Précipitations prévues à 18Z</h4>
         <img src="http://ready.arl.noaa.gov/data/forecast/grads/gfs/europe/panel2/plt3.gif" style="max-width:100%; max-height:100%;">
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Précipitations prévues à 00Z J+1</h4>
         <img src="http://ready.arl.noaa.gov/data/forecast/grads/gfs/europe/panel2/plt4.gif" style="max-width:100%; max-height:100%;">
     </section>
 
+    <!-- les cartes de vent sont chargées en deux slides superposés, celle du dessus à 12H, celle du dessous à 15h -->
     <section>
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Carte vents 12H UTC France 500hPa</h4>
@@ -265,6 +287,8 @@
     </section>
     </section>
 
+
+    <!-- les cartes de vent sont chargées en deux slides superposés, celle du dessus à 12H, celle du dessous à 15h -->
     <section>
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Carte vents 12H UTC Sud-Est 850hPa</h4>
@@ -281,6 +305,8 @@
     </section>
     </section> 
 
+
+    <!-- les cartes de vent sont chargées en deux slides superposés, celle du dessus à 12H, celle du dessous à 15h -->
     <section>    
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Carte vents 12H UTC Sud-Est 10m</h4>
@@ -297,16 +323,22 @@
     </section>
     </section>
 
+
+    <!-- sondage météociel -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Sondage modélisé Météociel / Saint Auban</h4>
         <iframe src="http://www.meteociel.fr/modeles/sondage2.php?archive=0&ech=6&map=1&runpara=0&x1=5.99417&lat=44.0825&lon=5.99417&userlat=1&y1=44.0825" width="1024" height="768"></iframe>
     </section>
 
+
+    <!-- sondage météociel -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Sondage modélisé Météociel / Briançon</h4>
         <iframe src="http://www.meteociel.fr/modeles/sondage2.php?archive=0&ech=6&map=1&runpara=0&x1=6.64941&lat=44.8964&lon=6.64941&userlat=1&y1=44.8964" width="1024" height="768"></iframe>
     </section>
 
+
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Humidité relative 12H UTC</h4>
         <script>
@@ -314,6 +346,7 @@
         </script>
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Surface based CAPE 12H UTC</h4>
         <script>
@@ -321,6 +354,7 @@
         </script>    
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Températures à 9h UTC</h4>
         <script>
@@ -328,6 +362,7 @@
         </script> 
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Températures à 15h UTC</h4>
         <script>
@@ -335,6 +370,8 @@
         </script> 
     </section>
 
+
+    <!-- un tableau des FL du jour en fonction du QNH, et en dessous la page que j'utilise pour determiner le qnh du jour, les heures de coucher du soleil etc etc -->
     <section>
     <section hidden="" class="future" style="top: -20px; display: none;">
         <script>
@@ -407,6 +444,7 @@
     </section>
 
 
+    <!-- un slide avec une zone de texte bien pratique -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <h4>Risques particuliers</h4>
         <textarea rows="21" cols="60" class="risques">
@@ -426,6 +464,7 @@
 PISTE EN SERVICE :</textarea>
     </section>
 
+    <!-- un slide -->
     <section hidden="" class="future" style="top: -20px; display: none;">
         <script>
             $(document).ready(function() {
@@ -445,9 +484,13 @@ PISTE EN SERVICE :</textarea>
         </ul>
     </section>
 
+
+
     <section hidden="" class="future" style="top: -171.5px; display: block;">
         <h1>Prévisions pour demain</h1>
     </section>
+
+
 
     <section hidden="" class="future" style="top: -350px; display: block;">
         <h4>Prévision Front à 0H UTC J+1</h4>
@@ -458,6 +501,8 @@ PISTE EN SERVICE :</textarea>
             document.write('<img src="https://cdn.knmi.nl/knmi/map/page/weer/waarschuwingen_verwachtingen/weerkaarten/PL'+day+'00_large.gif" style="max-width:100%; max-height:100%; height:550px">');
         </script>
     </section>
+
+
 
     <section hidden="" class="future" style="top: -350px; display: block;">
         <h4>Prévisions à 24h</h4>
