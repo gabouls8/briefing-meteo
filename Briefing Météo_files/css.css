@@ -1,0 +1,386 @@
+a img
+{
+	border:0px;
+}
+.css {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	letter-spacing: normal;
+	white-space: normal;
+}
+.texte {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000066;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+}
+
+.textesite {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+}
+
+
+body {
+/*background-image:url(http://static.meteociel.fr/css/background_vigiorcan.jpg);
+ */
+background-image:url(http://static.meteociel.fr/css/background_new_test140313-6.jpg);
+
+/* background-image:url(http://static.meteociel.fr/css/vigi_o11.jpg);*/
+/*background-image:url(http://static.meteociel.fr/css/vigi_r.jpg);*/
+
+
+	background-position:center top;
+	background-attachment:fixed;
+	background-repeat:no-repeat;
+/*	background-color: #f98e2b;*/
+	background-color: #0066CC;
+	text-align: center;
+}
+
+a:link {
+	color:#333;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color:#000;
+}
+a:hover {
+	text-decoration: none;
+	color:#06C;
+}
+a:active {
+	text-decoration: none;
+	color:#39F;
+}
+
+.titre_module {
+	background-image:url(../images/fond_titre_cat.jpg);
+	background-repeat:repeat-x;
+	background-position:left;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-color:#a5c7e3;
+	color: #000066;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	height:20px;
+	padding-left: 10px;
+}
+
+.titre_categorie {
+	background-image:url(../images/fond_titre_cat.jpg);
+	background-repeat:repeat-x;
+	background-position:right;
+	background-color:#a5c7e3;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color:#000;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	height:20px;
+	width:155px;
+	padding-left: 3px;
+	cursor:default;
+}
+
+.titre_categorie_noel {
+	background-image:url(../images/fond_titre_noel.png);
+	background-repeat:repeat-x;
+	background-position:right;
+	background-color:#e3d3a6;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color:#000;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	height:20px;
+	width:155px;
+	padding-left: 3px;
+	cursor:default;
+}
+
+
+
+.user_area {
+	background-image:url(../images/fond_titre_cat.jpg);
+	background-repeat:repeat;
+	background-position:right;
+	background-color:#a5c7e3;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color:#000;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	height:20px;
+	width:145px;
+	padding-left: 3px;
+	cursor:default;
+}
+
+.user_area1 {
+	background-color:#c6ced5;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color:#000;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	width:145px;
+	cursor:default;
+}
+
+
+.user_area a, .user_area1 a {
+	color:#000;
+	text-decoration:none;
+}
+
+.user_area a:hover, .user_area1 a:hover {
+	color:#06C;
+	text-decoration:none;
+}
+
+textbox {
+	height: 17px;
+	font-size:15px;
+}
+
+.commentaire {background-color : #BED4EB;
+       border: outset 2px black ;
+       width:90% ;
+       margin-left:25px ;
+       float:left ;
+       margin-top:20px ;
+       text-align:justify ;
+       padding : 10px ;
+       Font-size : 5pt ;
+	   overflow : visible !important;
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    -khtml-border-radius: 10px; 
+    border-radius: 10px; 
+	/*	behavior: url(/css/border-radius.htc);*/
+}
+
+
+.heure_suivi {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #0066CC;
+	font-size: 9px;
+}
+.texte_suivi {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000066;
+	font-size: 10px;
+}
+
+.cachediv 
+{
+	visibility: hidden;
+	overflow: hidden;
+	height: 1px;
+	margin-top: -1px;
+	position: absolute;
+	width:155px;
+}
+.showdiv 
+{
+	visibility:visible;
+	overflow:visible;
+	width:156px;
+}
+
+
+.nav {
+	float:left;
+	width:153px;
+	text-align:left;
+}
+
+.nav p {
+	margin:0;
+	padding:0;
+	text-align:left;
+	background-color:#ddf7f2;
+}
+
+.nav p span {
+	display:none;
+}
+
+.nav p a, .nav p span#menu_nb_visiteurs {
+	display:inline-block;
+	vertical-align:middle;
+	text-align:center;
+	padding:4px ;
+}
+
+.nav p span#menu_nb_visiteurs {
+	color:#000066;
+	text-align:center;
+}
+
+.nav p a {
+	border-right:1px solid #4869ac;
+}
+
+.nav img {
+	max-width:151px;
+	margin:0;
+	padding:0;
+}
+
+.nav ul {
+	margin:0;
+	padding:0;
+}
+
+.nav ul li {
+	list-style-type: none;	
+	margin:15px 0;
+}
+
+.nav ul li#menu_utilisateurs{
+	margin-top:0;
+}
+
+.nav h3 {
+	background: url("http://static.meteociel.fr/images/fond_titre_cat.jpg") top right no-repeat;
+	font-family:Arial, Verdana, Helvetica, sans-serif;
+	font-size:1em;
+	padding: 2px 0 2px 5px;
+	margin:1px 0;
+	cursor: pointer;
+	user-select: none;
+}
+
+.nav h3:before {
+	content: "\2022  ";
+}
+
+.nav ul li ul {
+	background-color:#97bedd;
+	padding:3px 5px;
+}
+
+.nav ul li ul li {
+	background: url("http://static.meteociel.fr/Banner/car3.gif") no-repeat 3px 4px transparent;
+  list-style-type: none;
+	padding:0px 0px 1px 13px;	
+	margin:0;
+	background-color:#ebfaf7;
+}
+
+.nav ul li ul li.menu_new {
+	background: url("http://static.meteociel.fr/Banner/car3.gif") no-repeat 3px 4px transparent;
+  list-style-type: none;
+	padding:0px 0px 1px 13px;	
+	margin:0;
+	background-color:#ff9900;
+}
+
+.nav ul li ul li.menu_pub, .nav ul li ul li.menu_image  {
+	list-style-image: none;
+	font-weight:bold;
+	min-height:100px;
+	text-align:center;
+	vertical-align:middle;
+	background: none;
+	background-color:#ebfaf7;
+	padding-left: 1px;
+}
+
+.nav ul li ul li.menu_noicon  {
+	list-style-image: none;
+	text-align:center;
+	vertical-align:middle;
+	background: none;
+	background-color:#ebfaf7;
+	padding-left: 1px;
+}
+
+.nav ul li ul li:first-child {
+	 background-position: 3px 8px;
+	 padding-top: 4px
+}
+.nav ul li ul li:last-child { 
+	padding-bottom: 4px 
+}
+
+.nav ul li ul li.menu_newsactus {
+	background: url("http://static.meteociel.fr/images/news_view.png") no-repeat 2px 1px transparent;
+  padding:2px 0px 2px 22px;	
+	list-style-type: none;
+  background-color:#ebfaf7;
+}
+
+.nav ul li ul li.menu_msg {
+	background: url("http://static.meteociel.fr/user/msg.gif") no-repeat 2px 1px transparent;
+  padding:2px 0px 2px 22px;	
+	list-style-type: none;
+  background-color:#ebfaf7;
+}
+
+.nav ul li ul li.menu_control {
+	background: url("http://static.meteociel.fr/user/control.gif") no-repeat 2px 1px transparent;
+  padding:2px 0px 2px 22px;	
+	list-style-type: none;
+  background-color:#ebfaf7;
+}
+
+.nav ul li ul li.menu_logout {
+	background: url("http://static.meteociel.fr/user/logout.gif") no-repeat 2px 1px transparent;
+  padding:2px 0px 2px 22px;	
+	list-style-type: none;
+  background-color:#ebfaf7;
+}
+
+.nav ul li ul li.menu_notice {
+	background-color:#ffffcc;
+}
+
+.nav ul li ul li.menu_important {
+	background-color:#ffcc00;
+}
+
+.nav ul li ul li form {
+	text-align:center;
+}
+.nav ul li ul li form input {
+	width:35px;
+}
+.nav ul li ul li form input#ville{
+	width:75px;
+}
+
+.plusmoins {
+	position:relative; 
+	float:right; 
+	padding-right:5px; 
+	padding-top:0px;
+}
+
+ 

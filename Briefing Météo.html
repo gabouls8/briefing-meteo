@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html><script type="text/javascript">window["_gaUserPrefs"] = { ioo : function() { return true; } }</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta charset="utf-8">
+            <title>Briefing Météo</title>
+            <meta name="author" content="Baptiste DESPREZ plagié par BFE ;)">
+            <meta name="dcterms.rightsHolder" content="Baptiste DESPREZ plagié par BFE héhé">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <link rel="stylesheet" href="./Briefing Météo_files/reveal.min.css">
+            <link rel="stylesheet" href="./Briefing Météo_files/sky.css" id="theme">
+            <link rel="stylesheet" href="./Briefing Météo_files/brief.css">
+            <link rel="stylesheet" href="./Briefing Météo_files/gallery.css">
+            <script src="./Briefing Météo_files/jquery.min.js"></script>
+    </head>
+
+    <body style="transition: -webkit-transform 0.8s ease;">
+            <div class="reveal default center" data-transition-speed="default" data-background-transition="default">
+                    <div class="slides" style="width: 960px; height: 700px; zoom: 0.943714;">
+
+    <script>
+        var listeAeros = [
+            { nom: 'Alpes du Sud',
+              liste: ['LFMX','LFNS','LFNA','LFTM','LFNJ','LFTP','LFNF','LFNC','LFMR','LFMF']},
+            { nom: 'Rhone',
+              liste: ['LFJF','LFNH','LFJE','LFHE','LFLU','LFHD','LFKE']},
+            { nom: 'Alpes du Nord',
+              liste: ['LFLG','LFLE','LFKA','LFKA','LFKX','LFLJ','LFKD','LFKR','LFLP','LFHM','LFHZ']},
+
+        ];
+
+
+            var date = new Date();
+            var minutes = date.getUTCMinutes();
+            var hours = date.getUTCHours();
+            var day = date.getUTCDate();
+            var month = date.getUTCMonth()+1;
+            var year = date.getUTCFullYear();
+            if(hours.toString().length==1){var zero = '0'; hours = zero.concat(hours);}
+            if(minutes.toString().length==1){var zero = '0'; minutes = zero.concat(minutes);}
+            if(month.toString().length==1){var zero = '0'; month = zero.concat(month);}
+            if(day.toString().length==1){var zero = '0'; day = zero.concat(day);}
+            var ymd = year.toString().concat(month.toString().concat(day.toString()));
+    </script>    
+
+
+
+    <section class="present" style="top: -198px; display: block;">
+        <h1>Briefing Météo</h1>
+        <p>
+            <small>Saint-Auban</small>
+        </p>
+        <form id='formloginaeroweb' action="https://aviation.meteo.fr/ajax/login_valid.php" target="aeroweb-iframe" method="post">
+            <input type="hidden" name='login' value='briffe'>
+            <input type="hidden" name='password' value='74405c9e1ef1ab9b3175220c81cf88af'>
+        </form>
+        <iframe type="hidden" name='aeroweb-iframe' src="https://aviation.meteo.fr/ajax/login_valid.php" width="0" height="0"></iframe>
+        <script type="text/javascript">
+            document.getElementById('formloginaeroweb').submit();
+            function sleep(miliseconds) {
+               var currentTime = new Date().getTime();
+            
+               while (currentTime + miliseconds >= new Date().getTime()) {
+               }
+            }
+            sleep(2000);       
+        </script>
+    </section>
+              
+
+
+    <script>
+        var listeInputAeros = function(listeAerosRegionale){
+            var ll = '';
+                for(i=0; i<listeAerosRegionale.liste.length; i++){
+                    ll=ll+'<input type="hidden" name="AERO_Tab_Aero['+i+']" value="'+listeAerosRegionale.liste[i]+'">';
+                }
+                return ll;
+        }
+
+        var sectionNotam = function(listelisteAeros){
+            var modeAffichage = ['RESUME','COMPLET'];
+            for(j=0;j<listelisteAeros.length;j++){
+                document.write('<section>');
+                for(k=0; k<modeAffichage.length; k++){
+                    document.write(''
+                    +'                <section  class="future" style="top: -198px; display: block;">'
+                    +'                    <h4>Notams  <b>'+listelisteAeros[j].nom+'</b>  '+modeAffichage[k]+'</h4>'
+                    +'                    '
+                    +'                    <form id="notam'+listelisteAeros[j].nom+modeAffichage[k]+'" action="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_Aerodrome.php?Langue=FR" target="iframe'+listelisteAeros[j].nom+modeAffichage[k]+'" method="post">'
+                    +'                        <input type="hidden" name="bResultat" value=true>'
+                    +'                        <input type="hidden" name="bImpression" value="">'
+                    +'                        <input type="hidden" name="ModeAffichage" value="'+modeAffichage[k]+'">'
+                    +'                        <input type="hidden" name="AERO_Date_DATE" value="'+year+'/'+month+'/'+day+'">'
+                    +'                        <input type="hidden" name="AERO_Date_HEURE" value="'+hours+':'+minutes+'">'
+                    +'                        <input type="hidden" name="AERO_Langue" value="FR">'
+                    +'                        <input type="hidden" name="AERO_Duree" value=12>'
+                    +'                        <input type="hidden" name="AERO_CM_REGLE" value=1>'
+                    +'                        <input type="hidden" name="AERO_CM_GPS" value=2>'
+                    +'                        <input type="hidden" name="AERO_CM_INFO_COMP" value=1>'
+                    +'                        '+listeInputAeros(listelisteAeros[j])+''
+                    +'                    </form>'
+                    +'                    '
+                    +'                    <iframe name="iframe'+listelisteAeros[j].nom+modeAffichage[k]+'" src="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_Aerodrome.php?Langue=FR" width="1024" height="700"></iframe>'
+                    +'                    '
+                    +'                </section>'
+                    +'                            ');
+                }
+            document.write('</section>');    
+            }
+
+            for(j=0;j<listelisteAeros.length;j++){
+                for(k=0; k<modeAffichage.length; k++){
+                    document.getElementById('notam'+listelisteAeros[j].nom+modeAffichage[k]).submit();
+                }
+            }
+
+        }
+
+        sectionNotam(listeAeros);
+    </script>
+
+    <section class="future" style="top: -350px; display: block;" hidden="">
+        <h4>Sup AIP</h4>
+        <form id="formSupAip" action="https://www.sia.aviation-civile.gouv.fr/asp_ssl/supaipmetro.asp?idl=fr&rechtext=0" target="iframeSupAip" method="post">
+            <input type="hidden" name="paramliste" value="1">
+            <input type="hidden" name="choixliste" value="1">
+            <script>
+                document.write('<input type="hidden" name="datecritere" value="'+day+'.'+month+'.'+year+'">');
+                document.write('<input type="hidden" name="datecriterehidden" value="'+day+'.'+month+'.'+year+'">');
+            </script>
+        </form>
+        <iframe name="iframeSupAip" src="https://www.sia.aviation-civile.gouv.fr/asp_ssl/supaipmetro.asp?idl=fr&rechtext=0" onload="menage()" width="1024" height="700"></iframe>
+        <script>
+            document.getElementById("formSupAip").submit();
+        </script>
+    </section>
+
+    <script>
+        var menage = function(){
+            var encours = document.getElementsByClassName('encours');
+            encours.removeChild(encours.childNodes[0]);
+        }
+    </script>
+
+    <section class="future" style="top: -350px; display: block;" hidden="">
+        <h4>Prévision Front à 12H</h4>
+        <script>
+            document.write('<img src="https://cdn.knmi.nl/knmi/map/page/weer/waarschuwingen_verwachtingen/weerkaarten/PL'+day+'12_large.gif" style="max-width:100%; max-height:100%; height:550px">');
+        </script>
+        
+    </section>
+
+    <section hidden="" class="future" style="top: -350px; display: block;">
+        <h4>Satellite infrarouge Europe</h4>
+        <ul class="gallery" data-interval="0.7" data-iterations="0">
+            <script>
+                var minutesat = minutes;
+                var hoursat = hours;
+
+                if(minutesat>=0){minutesat = '00';}
+                if(minutesat>=15){minutesat = '15';}
+                if(minutesat>=30){minutesat = '30';}
+                if(minutesat>=45){minutesat = '45';}
+
+                var previousSat = function(){
+                    if(minutesat=='00'){minutesat = '45'; hoursat--;}
+                    else{ 
+                        if(minutesat=='15'){minutesat = '00';}
+                        else{
+                            if(minutesat=='30'){minutesat = '15';}
+                            else{
+                                if(minutesat=='45'){minutesat = '30';}
+                            }
+                        }
+                    }
+                }
+
+                var arrayImages = [];
+                for(i=0; i<10; i++){
+                    arrayImages.push('<li><img src="http://fr.sat24.com/image?type=infraPolair&region=eu&timestamp='+ymd+hoursat+minutesat+ '"></li>');
+                    previousSat();
+                }
+                for(j=arrayImages.length-1; j>0; j--){
+                    document.write(arrayImages[j]);
+                    if(j==1){document.write(arrayImages[j]); document.write(arrayImages[j]);}
+
+                }
+            </script>
+        </ul>
+    </section>
+
+    <section hidden="" class="future" style="top: -350px; display: block;">
+        <h4>Satellite visible France</h4>
+        <ul class="gallery" data-interval="0.7" data-iterations="0">
+            <script>
+                var minutesat = minutes;
+                var hoursat = hours;
+
+
+                if(minutesat>=0){minutesat = '00';}
+                if(minutesat>=15){minutesat = '15';}
+                if(minutesat>=30){minutesat = '30';}
+                if(minutesat>=45){minutesat = '45';}
+
+                var previousSat = function(){
+                    if(minutesat=='00'){minutesat = '45'; hoursat--;}
+                    else{ 
+                        if(minutesat=='15'){minutesat = '00';}
+                        else{
+                            if(minutesat=='30'){minutesat = '15';}
+                            else{
+                                if(minutesat=='45'){minutesat = '30';}
+                            }
+                        }
+                    }
+                }
+
+                var arrayImages = [];
+                for(i=0; i<10; i++){
+                    arrayImages.push('<li><img src="http://fr.sat24.com/image?type=visual&region=fr&timestamp='+ymd+hoursat+minutesat+ '"></li>');
+                    previousSat();
+                }
+                for(j=arrayImages.length-1; j>0; j--){
+                    document.write(arrayImages[j]);
+                    if(j==1){document.write(arrayImages[j]); document.write(arrayImages[j]);}
+                }
+            </script>
+        </ul>
+    </section>
+
+    <section hidden="" class="future" style="top: -350px; display: none;">
+            <h4>Géopotentielle à 500mb</h4>
+            <img src="https://static.meteoblue.com/pub/nems12/maps/00VHG50_012.jpg" style="max-width:70%; max-height:70%;">
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Radar pluie</h4>
+        <img src="http://www.meteo60.fr/radars/animation-radar-france.gif" style="max-width:100%; max-height:100%;">
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Précipitations prévues à 18Z</h4>
+        <img src="http://ready.arl.noaa.gov/data/forecast/grads/gfs/europe/panel2/plt3.gif" style="max-width:100%; max-height:100%;">
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Précipitations prévues à 00Z J+1</h4>
+        <img src="http://ready.arl.noaa.gov/data/forecast/grads/gfs/europe/panel2/plt4.gif" style="max-width:100%; max-height:100%;">
+    </section>
+
+    <section>
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Carte vents 12H UTC France 500hPa</h4>
+        <script>
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france/wind-fl180&date='+ymd+'120000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+        </script>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Carte vents 15H UTC France 500hPa</h4>
+        <script>
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france/wind-fl180&date='+ymd+'150000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+        </script>    
+    </section>
+    </section>
+
+    <section>
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Carte vents 12H UTC Sud-Est 850hPa</h4>
+        <script>
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-fl050&date='+ymd+'120000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+        </script>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Carte vents 15H UTC Sud-Est 850hPa</h4>
+        <script>
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-fl050&date='+ymd+'150000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+        </script>
+    </section>
+    </section> 
+
+    <section>    
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Carte vents 12H UTC Sud-Est 10m</h4>
+        <script>
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-10m&date='+ymd+'120000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+        </script>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Carte vents 15H UTC Sud-Est 10m</h4>
+        <script>
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-10m&date='+ymd+'150000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+        </script>
+    </section>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Sondage modélisé Météociel / Saint Auban</h4>
+        <iframe src="http://www.meteociel.fr/modeles/sondage2.php?archive=0&ech=6&map=1&runpara=0&x1=5.99417&lat=44.0825&lon=5.99417&userlat=1&y1=44.0825" width="1024" height="768"></iframe>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Sondage modélisé Météociel / Briançon</h4>
+        <iframe src="http://www.meteociel.fr/modeles/sondage2.php?archive=0&ech=6&map=1&runpara=0&x1=6.64941&lat=44.8964&lon=6.64941&userlat=1&y1=44.8964" width="1024" height="768"></iframe>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Humidité relative 12H UTC</h4>
+        <script>
+            document.write('<img src="http://modeles2.meteociel.fr/modeles_gfs/runs/'+ymd+'00/12-600.GIF" style="max-width:100%; max-height:100%; height:620px">');
+        </script>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Surface based CAPE 12H UTC</h4>
+        <script>
+            document.write('<img src="http://modeles2.meteociel.fr/modeles_gfs/runs/'+ymd+'00/12-505.GIF" style="max-width:100%; max-height:100%; height:620px">');
+        </script>    
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Températures à 9h UTC</h4>
+        <script>
+            document.write('<img src="http://meteomaps.s3.amazonaws.com/eltiempo/datamaps/meteorama_fr_temp-'+ymd+'0900.png" style="max-width:100%; max-height:100%;">');
+        </script> 
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Températures à 15h UTC</h4>
+        <script>
+            document.write('<img src="http://meteomaps.s3.amazonaws.com/eltiempo/datamaps/meteorama_fr_temp-'+ymd+'1500.png" style="max-width:100%; max-height:100%;">');
+        </script> 
+    </section>
+
+    <section>
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <script>
+            $(document).ready(function() {
+                $("#qnh").change(function() {
+                    var qnh_value = $("#qnh").val();
+                    var mhPa = 8.5;
+                    var pMer = 1013.25;
+                    var delta = 0;
+                    delta = (qnh_value - pMer) * mhPa;
+                    delta = delta.toFixed(0);
+                    $("#delta").val(delta);
+                    
+                    fl = delta*1 + 2282*1;
+                    fl = fl+' m';
+                    $("#fl75").val(fl);
+                    
+                    fl = delta*1 + 2895*1;
+                    fl = fl+' m';
+                    $("#fl95").val(fl);
+                    
+                    fl = delta*1 + 3505*1;
+                    fl = fl+' m';
+                    $("#fl115").val(fl);
+                    
+                    fl = delta*1 + 5943*1;
+                    fl = fl+' m';
+                    $("#fl195").val(fl);
+                });
+            });
+        </script>
+        
+        <h4>Table des Niveaux de Vol</h4>
+        <div class="div_qnh">
+            <div style="display:block;margin:10px;text-align:left">
+                QNH du jour : <input type="text" id="qnh" class="big_input_qnh" value="1013">
+            </div>
+            <div style="display:block;margin:10px;text-align:left">
+                Delta : <input type="text" id="delta" class="big_input_delta" value="-2">
+            </div>
+            <div style="display:block;margin:10px;">
+                <table class="alti">
+                    <tbody><tr>
+                        <td>FL</td><td>Altitude standard</td><td>Altitude du jour</td><td>Zones</td>
+                    </tr>
+                    <tr>
+                        <td>75</td><td>2282 m</td><td><input type="text" id="fl75" class="big_input_fl" value="2280 m"></td><td>R71</td>
+                    </tr>
+                    <tr>
+                        <td>95</td><td>2895 m</td><td><input type="text" id="fl95" class="big_input_fl" value="2893 m"></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>115</td><td>3505 m</td><td><input type="text" id="fl115" class="big_input_fl" value="3503 m"></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>195</td><td>5943 m</td><td><input type="text" id="fl195" class="big_input_fl" value="5941 m"></td><td></td>
+                    </tr>
+                </tbody></table>
+            </div>
+            <div style="display:block;margin:10px;text-align:left">
+                MAX 5800m !
+            </div>
+        </div>
+        
+    </section>
+    
+    <section>
+        <iframe src="http://www.meteociel.fr/previsions/33652/chateau_arnoux_saint_auban.htm" width="1024" height="768"></iframe>
+    </section>
+    </section>
+
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <h4>Risques particuliers</h4>
+        <textarea rows="21" cols="60" class="risques">
+
+
+
+
+
+
+
+
+
+
+
+
+
+PISTE EN SERVICE :</textarea>
+    </section>
+
+    <section hidden="" class="future" style="top: -20px; display: none;">
+        <script>
+            $(document).ready(function() {
+                var timestamp = Math.round(+new Date() / 1000);
+                var url = "http://www.ogimet.com/display_gramet.php?lang=en&icao=lfmx&hini=0&tref=" + timestamp + "&hfin=0&fl=100&submit=submit";
+                $("#ogimet").attr("href", url);
+            });
+        </script>
+
+        <h4>Sites externes</h4>
+        <ul>
+            <li><a target="_blank" id="ogimet" class="roll" href="http://www.ogimet.com/display_gramet.php?lang=en&amp;icao=lfmx&amp;hini=0&amp;tref=1455456100&amp;hfin=0&amp;fl=100&amp;submit=submit"><span data-title="Coupe LFYR / Ogimet">Coupe LFYR / Ogimet</span></a></li>
+            <li><a href="http://fr.topmeteo.eu/weather/gliding" target="_blank" class="roll"><span data-title="Top météo">Top météo</span></a></li>
+            <li><a href="http://www.sia.aviation-civile.gouv.fr/asp/frameset_fr.asp?m=39" target="_blank" class="roll"><span data-title="Carte AZBA">Carte AZBA</span></a></li>
+            <li><a href="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_Aerodrome.php?Langue=FR" target="_blank" class="roll"><span data-title="Notam Aérodromes">Notam Aérodromes</span></a></li>
+            <li><a href="http://www.sia.aviation-civile.gouv.fr/asp/frameset_fr.asp?m=1" target="_blank" class="roll"><span data-title="Sup AIP">Sup AIP</span></a></li>
+        </ul>
+    </section>
+
+    <section hidden="" class="future" style="top: -171.5px; display: block;">
+        <h1>Prévisions pour demain</h1>
+    </section>
+
+    <section hidden="" class="future" style="top: -350px; display: block;">
+        <h4>Prévision Front à 0H UTC J+1</h4>
+        <script>
+            var tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+            var day = tomorrow.getUTCDate();
+            if(day.toString().length==1){var zero = '0'; day = zero.concat(day);}
+            document.write('<img src="https://cdn.knmi.nl/knmi/map/page/weer/waarschuwingen_verwachtingen/weerkaarten/PL'+day+'00_large.gif" style="max-width:100%; max-height:100%; height:550px">');
+        </script>
+    </section>
+
+    <section hidden="" class="future" style="top: -350px; display: block;">
+        <h4>Prévisions à 24h</h4>
+        <script>
+            var jour = date.getDay();
+            if (jour == 0) {
+                image = '<img src="http://www.lameteo.org/images/previsions/lundi.png" style="max-width:100%; max-height:100%; height:600px">';
+            }
+            if (jour == 1) {
+                image = '<img src="http://www.lameteo.org/images/previsions/mardi.png" style="max-width:100%; max-height:100%; height:600px">';
+            }
+            if (jour == 2) {
+                image = '<img src="http://www.lameteo.org/images/previsions/mercredi.png" style="max-width:100%; max-height:100%; height:600px">';
+            }
+            if (jour == 3) {
+                image = '<img src="http://www.lameteo.org/images/previsions/jeudi.png" style="max-width:100%; max-height:100%; height:600px">';
+            }
+            if (jour == 4) {
+                image = '<img src="http://www.lameteo.org/images/previsions/vendredi.png" style="max-width:100%; max-height:100%; height:600px">';
+            }
+            if (jour == 5) {
+                image = '<img src="http://www.lameteo.org/images/previsions/samedi.png" style="max-width:100%; max-height:100%; height:600px">';
+            }
+            if (jour == 6) {
+                image = '<img src="http://www.lameteo.org/images/previsions/dimanche.png" style="max-width:100%; max-height:100%; height:600px">';
+            }
+            document.write(image);
+        </script>
+    </section>
+                    </div>
+            <div class="backgrounds"><div class="slide-background present"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div><div class="slide-background future"></div></div><div class="progress" style="display: none;"><span></span></div><aside class="controls"><div class="navigate-left"></div><div class="navigate-right"></div><div class="navigate-up"></div><div class="navigate-down"></div></aside><div class="state-background"></div><div class="pause-overlay"></div></div>
+        <script src="./Briefing Météo_files/head.min.js"></script>
+        <script src="./Briefing Météo_files/reveal.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: false,
+                history: true,
+                center: true,
+                touch: true,
+                mouseWheel: false,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+                        { src: 'plugin/gallery/gallery.plugin.js', async: true, condition: function() { return !!document.querySelector('.gallery'); } }
+
+                ]
+            });
+        </script><script type="text/javascript" src="./Briefing Météo_files/highlight.js"></script><script type="text/javascript" src="./Briefing Météo_files/zoom.js"></script><script type="text/javascript" src="./Briefing Météo_files/notes.js"></script><script type="text/javascript" src="./Briefing Météo_files/gallery.plugin.js"></script>
+    
+
+    </body></html>
