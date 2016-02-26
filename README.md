@@ -3,7 +3,7 @@
 
 Il s'agirait de faire une page de briefing météo facilement paramétrable pour s'adapter à chaque club.
 
-Pour rentrer son code aéroweb dans le script:
+##Pour rentrer son code aéroweb dans le script:
 
 Ouvrez google chrome (c'est obligatoire de le faire avec chrome)  
 Deconnectez votre session aeroweb si vous en avez une en cours.  
