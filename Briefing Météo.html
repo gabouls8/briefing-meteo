@@ -227,7 +227,7 @@
                 if(minutesat>=45){minutesat = '45';}
 
                 var previousSat = function(){
-                    if(minutesat=='00'){minutesat = '45'; hoursat--;}
+                    if(minutesat=='00'){minutesat = '45'; hoursat--; if(hoursat.toString().length==1){var zero = '0'; hoursat = zero.concat(hoursat);}}
                     else{ 
                         if(minutesat=='15'){minutesat = '00';}
                         else{
@@ -270,7 +270,7 @@
                 if(minutesat>=45){minutesat = '45';}
 
                 var previousSat = function(){
-                    if(minutesat=='00'){minutesat = '45'; hoursat--;}
+                    if(minutesat=='00'){minutesat = '45'; hoursat--; if(hoursat.toString().length==1){var zero = '0'; hoursat = zero.concat(hoursat);}}
                     else{ 
                         if(minutesat=='15'){minutesat = '00';}
                         else{
