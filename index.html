@@ -2,7 +2,7 @@
 <html><script type="text/javascript">window["_gaUserPrefs"] = { ioo : function() { return true; } }</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta charset="utf-8">
             <title>Briefing Météo</title>
-            <meta name="author" content="Marcos Ossedat, Baptiste DESPREZ, BFE, ... ">
+            <meta name="author" content="Marcos Ossedat, Baptiste DESPREZ, BFE, Billy, CPT, marc Terrier ... ">
             <meta name="dcterms.rightsHolder" content="open source">
             <meta name="apple-mobile-web-app-capable" content="yes">
             <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,7 +16,7 @@
 
     <body style="transition: -webkit-transform 0.8s ease;">
             <div class="reveal default center" data-transition-speed="default" data-background-transition="default">
-                    <div class="slides" style="width: 960px; height: 700px; zoom: 0.943714;">
+                    <div class="slides" >
 
     <script>
         // le site notam de l'aviation civile n'accepte que 12 aérodromes maximum par requête.
@@ -57,156 +57,23 @@
 
 
     <!-- Premier slide -->
-    <section class="present" style="top: -198px; display: block;">
+    <section class="present" >
         <h1>Briefing Météo</h1>
         <p>
-            <small>Saint-Auban <script>document.write(day+'/'+month+'/'+year);</script></small>
+            <small>Alpes du sud <script>document.write(day+'/'+month+'/'+year);</script></small>
         </p>
-
-        <!-- une astuce qui permet de se connecter automatiquement au site de météo france pour accéder aux cartes des vent (utilisez votre login et mot de passe tel que décrit dans https://github.com/gabouls8/briefing-meteo/blob/master/README.md) -->
-        <form id='formloginaeroweb' action="https://aviation.meteo.fr/ajax/login_valid.php" target="aeroweb-iframe" method="post">
-            <input type="hidden" name='login' value='mvav'>
-            <input type="hidden" name='password' value='7ee6fd716429dccfc963bc6a2fd9feb0'>
-        </form>
-        <iframe type="hidden" name='aeroweb-iframe' src="https://aviation.meteo.fr/ajax/login_valid.php" width="0" height="0"></iframe>
-        <script type="text/javascript">
-            document.getElementById('formloginaeroweb').submit();
-            function sleep(miliseconds) {
-               var currentTime = new Date().getTime();
-               while (currentTime + miliseconds >= new Date().getTime()) {
-               }
-            }
-            sleep(2000); //pas très élégant, faute de mieux ça permet d'attendre la connexion à météo france avant de charger les cartes       
-        </script>
     </section>
               
 
-    <!-- Tous les slides montrant les Notams selon la liste définie plus haut, pour les 12 prochaines heures -->
-    <script>
-        var listeInputAeros = function(listeAerosRegionale){
-            var ll = '';
-                for(i=0; i<listeAerosRegionale.liste.length; i++){
-                    ll=ll+'<input type="hidden" name="AERO_Tab_Aero['+i+']" value="'+listeAerosRegionale.liste[i]+'">';
-                }
-                return ll;
-        }
 
-        var sectionNotam = function(listelisteAeros){
-            var modeAffichage = ['RESUME','COMPLET'];
-            for(j=0;j<listelisteAeros.length;j++){
-                document.write('<section>');
-                for(k=0; k<modeAffichage.length; k++){
-                    document.write(''
-                    +'                <section  class="future" style="top: -198px; display: block;">'
-                    +'                    <h4>Notams  <b>'+listelisteAeros[j].nom+'</b>  '+modeAffichage[k]+'</h4>'
-                    +'                    '
-                    +'                    <form id="notam'+listelisteAeros[j].nom+modeAffichage[k]+'" action="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_Aerodrome.php?Langue=FR" target="iframe'+listelisteAeros[j].nom+modeAffichage[k]+'" method="post">'
-                    +'                        <input type="hidden" name="bResultat" value=true>'
-                    +'                        <input type="hidden" name="bImpression" value="">'
-                    +'                        <input type="hidden" name="ModeAffichage" value="'+modeAffichage[k]+'">'
-                    +'                        <input type="hidden" name="AERO_Date_DATE" value="'+year+'/'+month+'/'+day+'">'
-                    +'                        <input type="hidden" name="AERO_Date_HEURE" value="'+hours+':'+minutes+'">'
-                    +'                        <input type="hidden" name="AERO_Langue" value="FR">'
-                    +'                        <input type="hidden" name="AERO_Duree" value=12>'
-                    +'                        <input type="hidden" name="AERO_CM_REGLE" value=1>'
-                    +'                        <input type="hidden" name="AERO_CM_GPS" value=2>'
-                    +'                        <input type="hidden" name="AERO_CM_INFO_COMP" value=1>'
-                    +'                        '+listeInputAeros(listelisteAeros[j])+''
-                    +'                    </form>'
-                    +'                    '
-                    +'                    <iframe name="iframe'+listelisteAeros[j].nom+modeAffichage[k]+'" src="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_Aerodrome.php?Langue=FR" width="1024" height="700"></iframe>'
-                    +'                    '
-                    +'                </section>'
-                    +'                            ');
-                }
-            document.write('</section>');    
-            }
-
-            for(j=0;j<listelisteAeros.length;j++){
-                for(k=0; k<modeAffichage.length; k++){
-                    document.getElementById('notam'+listelisteAeros[j].nom+modeAffichage[k]).submit();
-                }
-            }
-
-        }
-
-        sectionNotam(listeAeros);
-    </script>
-
-    <!-- Tous les slides montrant les Notams FIR selon la liste définie plus haut, pour les 12 prochaines heures -->
-    <script>
-    var listeInputFIR = function(listeFIRRegionale){
-        var ll = '';
-        for(i=0; i<listeFIRRegionale.liste.length; i++){
-            ll=ll+'<input type="hidden" name="FIR_Tab_Fir['+i+']" value="'+listeFIRRegionale.liste[i]+'">';
-        }
-        return ll;
-    }
-    var sectionNotamFIR = function(listelisteFIR){
-        var modeAffichage = ['RESUME','COMPLET'];
-        for(j=0;j<listelisteFIR.length;j++){
-        document.write('<section>');
-        for(k=0; k<modeAffichage.length; k++){
-            document.write(''
-            +' <section class="future" style="top: -198px; display: block;">'
-            +' <h4>Notams <b>'+listelisteFIR[j].nom+'</b> '+modeAffichage[k]+'</h4>'
-            +' '
-            +' <form id="notam'+listelisteFIR[j].nom+modeAffichage[k]+'" action="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_FIR.php" target="iframe'+listelisteFIR[j].nom+modeAffichage[k]+'" method="post">'
-            +' <input type="hidden" name="bResultat" value=true>'
-            +' <input type="hidden" name="bImpression" value="">'
-            +' <input type="hidden" name="ModeAffichage" value="'+modeAffichage[k]+'">'
-            +' <input type="hidden" name="FIR_Date_DATE" value="'+year+'/'+month+'/'+day+'">'
-            +' <input type="hidden" name="FIR_Date_HEURE" value="'+hours+':'+minutes+'">'
-            +' <input type="hidden" name="FIR_Langue" value="FR">'
-            +' <input type="hidden" name="FIR_Duree" value=12>'
-            +' <input type="hidden" name="FIR_CM_REGLE" value=3>'
-            +' <input type="hidden" name="FIR_CM_GPS" value=2>'
-            +' <input type="hidden" name="FIR_CM_INFO_COMP" value=1>'
-            +' <input type="hidden" name="FIR_NivMin" value=0>'
-            +' <input type="hidden" name="FIR_NivMax" value=200>'
-            +' '+listeInputFIR(listelisteFIR[j])+''
-            +' </form>'
-            +' '
-            +' <iframe name="iframe'+listelisteFIR[j].nom+modeAffichage[k]+'" src="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_FIR.php" width="1024" height="700"></iframe>'
-            +' '
-            +' </section>'
-            +' ');
-        }
-        document.write('</section>');
-    }
-    for(j=0;j<listelisteFIR.length;j++){
-        for(k=0; k<modeAffichage.length; k++){
-        document.getElementById('notam'+listelisteFIR[j].nom+modeAffichage[k]).submit();
-        }
-    }
-    }
-    sectionNotamFIR(listeFIR);
-    </script>
-
-    <!-- la liste des SUP AIP du jour, malheureusement pas triée -->
-    <section class="future" style="top: -350px; display: block;" hidden="">
-        <h4>Sup AIP</h4>
-        <form id="formSupAip" action="https://www.sia.aviation-civile.gouv.fr/asp_ssl/supaipmetro.asp?idl=fr&rechtext=0" target="iframeSupAip" method="post">
-            <input type="hidden" name="paramliste" value="1">
-            <input type="hidden" name="choixliste" value="1">
-            <script>
-                document.write('<input type="hidden" name="datecritere" value="'+day+'.'+month+'.'+year+'">');
-                document.write('<input type="hidden" name="datecriterehidden" value="'+day+'.'+month+'.'+year+'">');
-            </script>
-        </form>
-        <iframe name="iframeSupAip" src="https://www.sia.aviation-civile.gouv.fr/asp_ssl/supaipmetro.asp?idl=fr&rechtext=0" onload="menage()" width="1024" height="700"></iframe>
-        <script>
-            document.getElementById("formSupAip").submit();
-        </script>
-    </section>
 
 
 
     <!-- un slide -->
-    <section class="future" style="top: -350px; display: block;" hidden="">
+    <section class="future"  >
         <h4>Prévision Front à 12H</h4>
         <script>
-            document.write('<img src="https://cdn.knmi.nl/knmi/map/page/weer/waarschuwingen_verwachtingen/weerkaarten/PL'+day+'12_large.gif" style="max-width:100%; max-height:100%; height:550px">');
+            document.write('<img src="https://cdn.knmi.nl/knmi/map/page/weer/waarschuwingen_verwachtingen/weerkaarten/PL'+day+'12_large.gif" style="height:620px">');
         </script>
         
     </section>
@@ -214,7 +81,7 @@
 
     <!-- un slide -->
     <!-- les photos satellites sont chargées une à une et réassemblées en image animée avec la librairie gallery.css pour reveal.js -->
-    <section hidden="" class="future" style="top: -350px; display: block;">
+    <section  class="future" >
         <h4>Satellite infrarouge Europe</h4>
         <ul class="gallery" data-interval="0.7" data-iterations="0">
             <script>
@@ -256,7 +123,7 @@
 
     <!-- un slide -->
     <!-- les photos satellites sont chargées une à une et réassemblées en image animée avec la librairie gallery.css pour reveal.js -->
-    <section hidden="" class="future" style="top: -350px; display: block;">
+    <section  class="future" >
         <h4>Satellite visible France</h4>
         <ul class="gallery" data-interval="0.7" data-iterations="0">
             <script>
@@ -296,42 +163,38 @@
     </section>
 
     <!-- un slide -->
-    <section hidden="" class="future" style="top: -350px; display: none;">
+    <section  class="future" >
             <h4>Géopotentielle à 500mb</h4>
-            <img src="https://static.meteoblue.com/pub/nems12/maps/00VHG50_012.jpg" style="max-width:70%; max-height:70%;">
+            <img src="https://static.meteoblue.com/pub/nems12/maps/00VHG50_012.jpg" style="height:620px;">
     </section>
 
     <!-- un slide -->
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Radar pluie</h4>
-        <img src="http://www.meteo60.fr/radars/animation-radar-france.gif" style="max-width:100%; max-height:100%;">
+        <img src="http://www.meteo60.fr/radars/animation-radar-france.gif" style="height:620px;">
     </section>
 
     <!-- un slide -->
-    <section hidden="" class="future" style="top: -20px; display: none;">
-        <h4>Précipitations prévues à 18Z</h4>
-        <img src="http://ready.arl.noaa.gov/data/forecast/grads/gfs/europe/panel2/plt3.gif" style="max-width:100%; max-height:100%;">
+    <!-- un slide -->
+    <section  class="future" >
+        <h4>Précipitations prévues à 17Z</h4>
+        <script class="enLigne">document.write('<img src="http://modeles7.meteociel.fr/modeles/arome/runs/'+ymd+'00/aromehd-1-17-4.png" style="height:620px;">');</script>
     </section>
 
-    <!-- un slide 
-    <section hidden="" class="future" style="top: -20px; display: none;">
-        <h4>Précipitations prévues à 00Z J+1</h4>
-        <img src="http://ready.arl.noaa.gov/data/forecast/grads/gfs/europe/panel2/plt4.gif" style="max-width:100%; max-height:100%;">
-    </section> -->
 
     <!-- les cartes de vent sont chargées en deux slides superposés, celle du dessus à 12H, celle du dessous à 15h -->
     <section>
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Carte vents 12H UTC France 500hPa</h4>
         <script>
-            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france/wind-fl180&date='+ymd+'120000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france/wind-fl180&date='+ymd+'120000&mode=img&comment=" alt="connect to https://aviation.meteo.fr/login.php and relaunch" style="max-width:100%; max-height:100%; height:620px">');
         </script>
     </section>
 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Carte vents 15H UTC France 500hPa</h4>
         <script>
-            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france/wind-fl180&date='+ymd+'150000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france/wind-fl180&date='+ymd+'150000&mode=img&comment=" alt="connect to https://aviation.meteo.fr/login.php and relaunch" style="max-width:100%; max-height:100%; height:620px">');
         </script>    
     </section>
     </section>
@@ -339,17 +202,17 @@
 
     <!-- les cartes de vent sont chargées en deux slides superposés, celle du dessus à 12H, celle du dessous à 15h -->
     <section>
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Carte vents 12H UTC Sud-Est 850hPa</h4>
         <script>
-            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-fl050&date='+ymd+'120000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-fl050&date='+ymd+'120000&mode=img&comment=" alt="connect to https://aviation.meteo.fr/login.php and relaunch" style="max-width:100%; max-height:100%; height:620px">');
         </script>
     </section>
 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Carte vents 15H UTC Sud-Est 850hPa</h4>
         <script>
-            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-fl050&date='+ymd+'150000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-fl050&date='+ymd+'150000&mode=img&comment=" alt="connect to https://aviation.meteo.fr/login.php and relaunch" style="max-width:100%; max-height:100%; height:620px">');
         </script>
     </section>
     </section> 
@@ -357,38 +220,38 @@
 
     <!-- les cartes de vent sont chargées en deux slides superposés, celle du dessus à 12H, celle du dessous à 15h -->
     <section>    
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Carte vents 12H UTC Sud-Est 10m</h4>
         <script>
-            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-10m&date='+ymd+'120000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-10m&date='+ymd+'120000&mode=img&comment=" alt="connect to https://aviation.meteo.fr/login.php and relaunch" style="max-width:100%; max-height:100%; height:620px">');
         </script>
     </section>
 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Carte vents 15H UTC Sud-Est 10m</h4>
         <script>
-            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-10m&date='+ymd+'150000&mode=img&comment=" alt="connect to aeroweb and relaunch" style="max-width:100%; max-height:100%; height:620px">');
+            document.write('<img src="https://aviation.meteo.fr/affiche_image.php?time=1455464332&type=regional/france-se/wind-10m&date='+ymd+'150000&mode=img&comment=" alt="connect to https://aviation.meteo.fr/login.php and relaunch" style="max-width:100%; max-height:100%; height:620px">');
         </script>
     </section>
     </section>
 
 
     <!-- sondage météociel -->
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Sondage modélisé Météociel / Saint Auban</h4>
         <iframe src="http://www.meteociel.fr/modeles/sondage2arome.php?archive=0&ech=6&map=1&wrf=0&region=&type=1&lat=44.0825&lon=5.99417" width="1024" height="768"></iframe>
     </section>
 
 
     <!-- sondage météociel -->
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Sondage modélisé Météociel / Briançon</h4>
         <iframe src="http://www.meteociel.fr/modeles/sondage2arome.php?archive=0&ech=6&map=1&wrf=0&region=&type=1&lat=44.8964&lon=6.64941" width="1024" height="768"></iframe>
     </section>
 
 
     <!-- un slide 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Humidité relative 12H UTC</h4>
         <script>
             document.write('<img src="http://modeles2.meteociel.fr/modeles_gfs/runs/'+ymd+'00/12-600.GIF" style="max-width:100%; max-height:100%; height:620px">');
@@ -396,7 +259,7 @@
     </section> -->
 
     <!-- un slide 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Surface based CAPE 12H UTC</h4>
         <script>
             document.write('<img src="http://modeles2.meteociel.fr/modeles_gfs/runs/'+ymd+'00/12-505.GIF" style="max-width:100%; max-height:100%; height:620px">');
@@ -404,7 +267,7 @@
     </section> -->
 
     <!-- un slide 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Températures à 9h UTC</h4>
         <script>
             document.write('<img src="http://meteomaps.s3.amazonaws.com/eltiempo/datamaps/meteorama_fr_temp-'+ymd+'0900.png" style="max-width:100%; max-height:100%;">');
@@ -412,7 +275,7 @@
     </section> -->
 
     <!-- un slide 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <h4>Températures à 15h UTC</h4>
         <script>
             document.write('<img src="http://meteomaps.s3.amazonaws.com/eltiempo/datamaps/meteorama_fr_temp-'+ymd+'1500.png" style="max-width:100%; max-height:100%;">');
@@ -422,7 +285,7 @@
 
     <!-- un tableau des FL du jour en fonction du QNH, et en dessous la page que j'utilise pour determiner le qnh du jour, les heures de coucher du soleil etc etc -->
     <section>
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <script>
             function round5(x){
                 return Math.ceil(x/5)*5;
@@ -482,32 +345,32 @@
         <h4>Table des Niveaux de Vol</h4>
         <div class="div_qnh">
 
-            <div style="display:block; margin:10px;">
+            <div style="display:block; ">
                 <table class="alti" >
                     <tbody>
                     <tr>
-                        <th>QNH</th><th><input type="text" id="qnh" class="big_input_qnh" value="1013.25"></th><th>FL</th><th class='centre'>Altitude du jour</th>
+                        <th>QNH</th><th><input type="text" id="qnh" class="big_input_qnh" value="1000"></th><th>FL</th><th class='centre'>Altitude du jour</th>
                     </tr>
                     <tr>
-                        <td></td><td></td><td>75</td><td class='centre' id='fl75'>2282</td>
+                        <td></td><td></td><td>75</td><td class='centre' id='fl75'>2170</td>
                     </tr>
                     <tr>
-                        <td>Delta</td><td id="delta">0</td><td>115</td><td class='centre' id='fl115'>3505</td>
+                        <td>Delta</td><td id="delta">0</td><td>115</td><td class='centre' id='fl115'>3390</td>
                     </tr>
                     <tr>
-                        <td></td><td></td><td>125</td><td class='centre' id='fl125'>3810</td>
+                        <td></td><td></td><td>125</td><td class='centre' id='fl125'>3695</td>
                     </tr>
                     <tr>
-                        <td></td><td></td><td>135</td><td class='centre' id='fl135'>4115</td>
+                        <td></td><td></td><td>135</td><td class='centre' id='fl135'>4000</td>
                     </tr>
                     <tr>
-                        <td></td><td></td><td>145</td><td class='centre' id='fl145'>4419</td>
+                        <td></td><td></td><td>145</td><td class='centre' id='fl145'>4305</td>
                     </tr>
                     <tr>
-                        <td></td><td></td><td>155</td><td class='centre' id='fl155'>4724</td>
+                        <td></td><td></td><td>155</td><td class='centre' id='fl155'>4610</td>
                     </tr>
                     <tr>
-                        <td></td><td></td><td>195</td><td class='centre' id='fl195'>5943</td>
+                        <td></td><td></td><td>195</td><td class='centre' id='fl195'>5830</td>
                     </tr>
                 </tbody></table>
             </div>
@@ -531,7 +394,7 @@
 
 
     <!-- un slide 
-    <section hidden="" class="future" style="top: -20px; display: none;">
+    <section  class="future" >
         <script>
             $(document).ready(function() {
                 var timestamp = Math.round(+new Date() / 1000);
@@ -551,52 +414,171 @@
     </section> -->
 
 
+    <!-- Tous les slides montrant les Notams selon la liste définie plus haut, pour les 12 prochaines heures -->
+    <script>
+        var listeInputAeros = function(listeAerosRegionale){
+            var ll = '';
+                for(i=0; i<listeAerosRegionale.liste.length; i++){
+                    ll=ll+'<input type="hidden" name="AERO_Tab_Aero['+i+']" value="'+listeAerosRegionale.liste[i]+'">';
+                }
+                return ll;
+        }
 
-    <section hidden="" class="future" style="top: -171.5px; display: block;">
+        var sectionNotam = function(listelisteAeros){
+            var modeAffichage = ['RESUME','COMPLET'];
+            for(j=0;j<listelisteAeros.length;j++){
+                document.write('<section>');
+                for(k=0; k<modeAffichage.length; k++){
+                    document.write(''
+                    +'                <section  class="future" >'
+                    +'                    <h4>Notams  <b>'+listelisteAeros[j].nom+'</b>  '+modeAffichage[k]+'</h4>'
+                    +'                    '
+                    +'                    <form id="notam'+listelisteAeros[j].nom+modeAffichage[k]+'" action="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_Aerodrome.php?Langue=FR" target="iframe'+listelisteAeros[j].nom+modeAffichage[k]+'" method="post">'
+                    +'                        <input type="hidden" name="bResultat" value=true>'
+                    +'                        <input type="hidden" name="bImpression" value="">'
+                    +'                        <input type="hidden" name="ModeAffichage" value="'+modeAffichage[k]+'">'
+                    +'                        <input type="hidden" name="AERO_Date_DATE" value="'+year+'/'+month+'/'+day+'">'
+                    +'                        <input type="hidden" name="AERO_Date_HEURE" value="'+hours+':'+minutes+'">'
+                    +'                        <input type="hidden" name="AERO_Langue" value="FR">'
+                    +'                        <input type="hidden" name="AERO_Duree" value=12>'
+                    +'                        <input type="hidden" name="AERO_CM_REGLE" value=1>'
+                    +'                        <input type="hidden" name="AERO_CM_GPS" value=2>'
+                    +'                        <input type="hidden" name="AERO_CM_INFO_COMP" value=1>'
+                    +'                        '+listeInputAeros(listelisteAeros[j])+''
+                    +'                    </form>'
+                    +'                    '
+                    +'                    <iframe name="iframe'+listelisteAeros[j].nom+modeAffichage[k]+'" src="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_Aerodrome.php?Langue=FR" width="1024" height="650px"></iframe>'
+                    +'                    '
+                    +'                </section>'
+                    +'                            ');
+                }
+            document.write('</section>');    
+            }
+
+            for(j=0;j<listelisteAeros.length;j++){
+                for(k=0; k<modeAffichage.length; k++){
+                    document.getElementById('notam'+listelisteAeros[j].nom+modeAffichage[k]).submit();
+                }
+            }
+
+        }
+
+        sectionNotam(listeAeros);
+    </script>
+
+    <!-- Tous les slides montrant les Notams FIR selon la liste définie plus haut, pour les 12 prochaines heures -->
+    <script>
+        var listeInputFIR = function(listeFIRRegionale){
+            var ll = '';
+            for(i=0; i<listeFIRRegionale.liste.length; i++){
+                ll=ll+'<input type="hidden" name="FIR_Tab_Fir['+i+']" value="'+listeFIRRegionale.liste[i]+'">';
+            }
+            return ll;
+        }
+        var sectionNotamFIR = function(listelisteFIR){
+            var modeAffichage = ['RESUME','COMPLET'];
+            for(j=0;j<listelisteFIR.length;j++){
+            document.write('<section>');
+            for(k=0; k<modeAffichage.length; k++){
+                document.write(''
+                +' <section class="future" >'
+                +' <h4>Notams <b>'+listelisteFIR[j].nom+'</b> '+modeAffichage[k]+'</h4>'
+                +' '
+                +' <form id="notam'+listelisteFIR[j].nom+modeAffichage[k]+'" action="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_FIR.php" target="iframe'+listelisteFIR[j].nom+modeAffichage[k]+'" method="post">'
+                +' <input type="hidden" name="bResultat" value=true>'
+                +' <input type="hidden" name="bImpression" value="">'
+                +' <input type="hidden" name="ModeAffichage" value="'+modeAffichage[k]+'">'
+                +' <input type="hidden" name="FIR_Date_DATE" value="'+year+'/'+month+'/'+day+'">'
+                +' <input type="hidden" name="FIR_Date_HEURE" value="'+hours+':'+minutes+'">'
+                +' <input type="hidden" name="FIR_Langue" value="FR">'
+                +' <input type="hidden" name="FIR_Duree" value=12>'
+                +' <input type="hidden" name="FIR_CM_REGLE" value=3>'
+                +' <input type="hidden" name="FIR_CM_GPS" value=2>'
+                +' <input type="hidden" name="FIR_CM_INFO_COMP" value=1>'
+                +' <input type="hidden" name="FIR_NivMin" value=0>'
+                +' <input type="hidden" name="FIR_NivMax" value=200>'
+                +' '+listeInputFIR(listelisteFIR[j])+''
+                +' </form>'
+                +' '
+                +' <iframe name="iframe'+listelisteFIR[j].nom+modeAffichage[k]+'" src="http://notamweb.aviation-civile.gouv.fr/Script/IHM/Bul_FIR.php" width="1024" height="650px"></iframe>'
+                +' '
+                +' </section>'
+                +' ');
+            }
+            document.write('</section>');
+        }
+        for(j=0;j<listelisteFIR.length;j++){
+            for(k=0; k<modeAffichage.length; k++){
+            document.getElementById('notam'+listelisteFIR[j].nom+modeAffichage[k]).submit();
+            }
+        }
+        }
+        sectionNotamFIR(listeFIR);
+    </script>
+
+    <!-- la liste des SUP AIP du jour, malheureusement pas triée -->
+    <section class="future"  >
+        <h4>Sup AIP</h4>
+        <form id="formSupAip" action="https://www.sia.aviation-civile.gouv.fr/asp_ssl/supaipmetro.asp?idl=fr&rechtext=0" target="iframeSupAip" method="post">
+            <input type="hidden" name="paramliste" value="1">
+            <input type="hidden" name="choixliste" value="1">
+            <script>
+                document.write('<input type="hidden" name="datecritere" value="'+day+'.'+month+'.'+year+'">');
+                document.write('<input type="hidden" name="datecriterehidden" value="'+day+'.'+month+'.'+year+'">');
+            </script>
+        </form>
+        <iframe name="iframeSupAip" src="https://www.sia.aviation-civile.gouv.fr/asp_ssl/supaipmetro.asp?idl=fr&rechtext=0" width="1024" height="650px"></iframe>
+        <script>
+            document.getElementById("formSupAip").submit();
+        </script>
+    </section>
+
+
+    <section  class="future" >
         <h1>Prévisions pour demain</h1>
     </section>
 
 
 
-    <section hidden="" class="future" style="top: -350px; display: block;">
+    <section  class="future" >
         <h4>Prévision Front à 0H UTC J+1</h4>
         <script>
             var tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
             var day = tomorrow.getUTCDate();
             if(day.toString().length==1){var zero = '0'; day = zero.concat(day);}
-            document.write('<img src="https://cdn.knmi.nl/knmi/map/page/weer/waarschuwingen_verwachtingen/weerkaarten/PL'+day+'00_large.gif" style="max-width:100%; max-height:100%; height:550px">');
+            document.write('<img src="https://cdn.knmi.nl/knmi/map/page/weer/waarschuwingen_verwachtingen/weerkaarten/PL'+day+'00_large.gif" style="height:620px;">');
         </script>
     </section>
 
-    <section hidden="" class="future" style="top: -350px; display: none;">
+    <section  class="future" >
             <h4>Géopotentielle à 500mb J+1</h4>
-            <img src="https://static.meteoblue.com/pub/nems12/maps/00VHG50_036.jpg" style="max-width:70%; max-height:70%;">
+            <img src="https://static.meteoblue.com/pub/nems12/maps/00VHG50_036.jpg" style="height:620px;">
     </section>
 
-    <section hidden="" class="future" style="top: -350px; display: block;">
+    <section  class="future" >
         <h4>Prévisions à 24h</h4>
         <script>
             var jour = date.getDay();
             if (jour == 0) {
-                image = '<img src="http://www.lameteo.org/images/previsions/lundi.png" style="max-width:100%; max-height:100%; height:600px">';
+                image = '<img src="http://www.lameteo.org/images/previsions/lundi.png" style="height:620px">';
             }
             if (jour == 1) {
-                image = '<img src="http://www.lameteo.org/images/previsions/mardi.png" style="max-width:100%; max-height:100%; height:600px">';
+                image = '<img src="http://www.lameteo.org/images/previsions/mardi.png" style="height:620px">';
             }
             if (jour == 2) {
-                image = '<img src="http://www.lameteo.org/images/previsions/mercredi.png" style="max-width:100%; max-height:100%; height:600px">';
+                image = '<img src="http://www.lameteo.org/images/previsions/mercredi.png" style="height:620px">';
             }
             if (jour == 3) {
-                image = '<img src="http://www.lameteo.org/images/previsions/jeudi.png" style="max-width:100%; max-height:100%; height:600px">';
+                image = '<img src="http://www.lameteo.org/images/previsions/jeudi.png" style="height:620px">';
             }
             if (jour == 4) {
-                image = '<img src="http://www.lameteo.org/images/previsions/vendredi.png" style="max-width:100%; max-height:100%; height:600px">';
+                image = '<img src="http://www.lameteo.org/images/previsions/vendredi.png" style="height:620px">';
             }
             if (jour == 5) {
-                image = '<img src="http://www.lameteo.org/images/previsions/samedi.png" style="max-width:100%; max-height:100%; height:600px">';
+                image = '<img src="http://www.lameteo.org/images/previsions/samedi.png" style="height:620px">';
             }
             if (jour == 6) {
-                image = '<img src="http://www.lameteo.org/images/previsions/dimanche.png" style="max-width:100%; max-height:100%; height:600px">';
+                image = '<img src="http://www.lameteo.org/images/previsions/dimanche.png" style="height:620px">';
             }
             document.write(image);
         </script>
@@ -610,8 +592,8 @@
             // Full list of configuration options available here:
             // https://github.com/hakimel/reveal.js#configuration
             Reveal.initialize({
-                controls: false,
-                progress: false,
+                controls: true,
+                progress: true,
                 history: true,
                 center: true,
                 touch: true,
@@ -623,11 +605,11 @@
                 // Optional libraries used to extend on reveal.js
                 dependencies: [
                         { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-                        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                        //{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                        //{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                         { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-                        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+                        //{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                        //{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
                         { src: 'plugin/gallery/gallery.plugin.js', async: true, condition: function() { return !!document.querySelector('.gallery'); } }
 
                 ]
