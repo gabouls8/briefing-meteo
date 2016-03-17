@@ -43,6 +43,7 @@
         // On initialise la date du jour pour tout le document
             var date = new Date();
             var timeSince1970 = date.getTime();
+            var seconds = date.getUTCSeconds()+3;
             var minutes = date.getUTCMinutes();
             var hours = date.getUTCHours();
             var day = date.getUTCDate();
@@ -51,6 +52,7 @@
             // faisons en sorte que le premier janvier à 8 heures 2 minutes soit 01/01/2016 08:02, et non 1/1/2016 8:2  ;-)
             if(hours.toString().length==1){var zero = '0'; hours = zero.concat(hours);}
             if(minutes.toString().length==1){var zero = '0'; minutes = zero.concat(minutes);}
+            if(seconds.toString().length==1){var zero = '0'; seconds = zero.concat(seconds);}
             if(month.toString().length==1){var zero = '0'; month = zero.concat(month);}
             if(day.toString().length==1){var zero = '0'; day = zero.concat(day);}
             var ymd = year.toString().concat(month.toString().concat(day.toString()));
@@ -260,10 +262,17 @@
     <!-- ogimet st auban -->
     <section  class="future" >
         <h4>Ogimet / Saint Auban</h4>
+        <img id="gramet" src="" alt="gramet" style="max-height:620px">
         <script>
-        timeSince1970=timeSince1970.toString().substr(0, 10);
-            document.write('<iframe src="http://www.ogimet.com/display_gramet.php?lang=en&icao=LFMX&hini=0&tref='+timeSince1970+'&hfin=0&fl=100&submit=submit" width="1024" height="768"></iframe>') 
+
+        var afficheGramet = function(){
+            var timeSince1970tronque=timeSince1970.toString().substr(0, 10);
+            var time12 = timeSince1970.toString().substr(0, 10);
+            var gfs = (hours>=12? "12" : "00")
+            document.getElementById("gramet").src = 'http://www.ogimet.com/tmp/gramet_'+ymd+hours+minutes+seconds+'_'+ymd+gfs+'_LFMX_1970010100_1970010100.png';
+        }
         </script>
+         <iframe type="hidden" onload="afficheGramet()" src="http://www.ogimet.com/display_gramet.php?lang=en&icao=LFMX&hini=0&tref='+timeSince1970tronque+'&hfin=0&fl=100&submit=submit" width="1024" height="768"></iframe> 
     </section>
 
     <!-- sondage météociel -->
