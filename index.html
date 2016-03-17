@@ -42,6 +42,7 @@
 
         // On initialise la date du jour pour tout le document
             var date = new Date();
+            var timeSince1970 = date.getTime();
             var minutes = date.getUTCMinutes();
             var hours = date.getUTCHours();
             var day = date.getUTCDate();
@@ -256,6 +257,14 @@
     </section>
     </section>
 
+    <!-- ogimet st auban -->
+    <section  class="future" >
+        <h4>Ogimet / Saint Auban</h4>
+        <script>
+        timeSince1970=timeSince1970.toString().substr(0, 10);
+            document.write('<iframe src="http://www.ogimet.com/display_gramet.php?lang=en&icao=LFMX&hini=0&tref='+timeSince1970+'&hfin=0&fl=100&submit=submit" width="1024" height="768"></iframe>') 
+        </script>
+    </section>
 
     <!-- sondage météociel -->
     <section  class="future" >
