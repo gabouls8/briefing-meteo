@@ -1,4 +1,5 @@
-# page de chargement automatique de données météo
+# nouvelle version: aller sur https://github.com/gabouls8/briefing-meteo2.0  
+les librairies utilisées sont plus récentes
 ===========
 
 Il s'agirait de faire une page de briefing météo facilement paramétrable pour s'adapter à chaque club.
